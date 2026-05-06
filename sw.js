@@ -1,4 +1,4 @@
-const CACHE_NAME = "did-memo-v2";
+const CACHE_NAME = "did-memo-v3";
 const CACHE_FILES = [
   "./",
   "./index.html",
