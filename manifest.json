@@ -1,0 +1,11 @@
+{
+  "name": "できたメモ",
+  "short_name": "できたメモ",
+  "description": "今日できたことを、ひとつだけでも記録できるメモアプリです。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "theme_color": "#8b8f77",
+  "background_color": "#f4f0e8",
+  "lang": "ja"
+}
