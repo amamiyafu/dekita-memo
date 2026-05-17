@@ -1,9 +1,10 @@
-﻿const CACHE_NAME = "did-memo-v6";
+const CACHE_NAME = "did-memo-v7";
 const CACHE_FILES = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./sw.js"
+  "./sw.js",
+  "./icon.png"
 ];
 
 self.addEventListener("install", (event) => {
