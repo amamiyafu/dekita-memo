@@ -260,6 +260,15 @@
       margin-top: 12px;
     }
 
+    .backup-actions .backup-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0;
+      text-align: center;
+      cursor: pointer;
+    }
+
     .section-title {
       margin-bottom: 12px;
       font-size: 18px;
@@ -369,11 +378,11 @@
           <h2 class="section-title" id="backupTitle">バックアップ</h2>
           <button class="backup-toggle" type="button" id="backupToggle" aria-expanded="false" aria-controls="backupPanel">開く</button>
         </div>
-        <p class="backup-text">大切な記録がなくならないように、定期的なバックアップをお願いします。</p>
+        <p class="backup-text">記録を保存したり復元できます。</p>
         <div id="backupPanel" hidden>
           <div class="backup-actions">
-            <button class="backup-button" type="button" id="exportButton">バックアップを書き出す</button>
-            <button class="backup-button" type="button" id="importButton">バックアップを読み込む</button>
+            <button class="backup-button" type="button" id="exportButton">保存</button>
+            <label class="backup-button" id="importButton" for="importFile" role="button" tabindex="0">復元</label>
             <input class="visually-hidden" type="file" id="importFile" accept=".json,application/json">
           </div>
         </div>
@@ -682,11 +691,14 @@
 
       saveRecords([...currentRecords, ...recordsToAdd]);
       render();
-      showBackupStatus("バックアップを読み込みました");
+      showBackupStatus("復元しました");
     }
 
-    function openImportFilePicker() {
-      const confirmed = window.confirm("バックアップを読み込みます。現在の記録は残したまま追加します。");
+    function openImportFilePicker(event) {
+      if (event) {
+        event.preventDefault();
+      }
+      const confirmed = window.confirm("復元しますか？現在の記録は残したまま追加します。");
       if (!confirmed) {
         return;
       }
@@ -727,6 +739,11 @@
     backupToggle.addEventListener("click", toggleBackupPanel);
     exportButton.addEventListener("click", exportRecords);
     importButton.addEventListener("click", openImportFilePicker);
+    importButton.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        openImportFilePicker(event);
+      }
+    });
     importFile.addEventListener("change", handleImportFileChange);
 
     if ("serviceWorker" in navigator) {
