@@ -195,8 +195,7 @@
     }
 
     .save-button,
-    .backup-button,
-    .backup-toggle {
+    .backup-button {
       min-height: 46px;
       padding: 11px 20px;
       border-radius: 999px;
@@ -215,18 +214,9 @@
       background: #faf6ed;
     }
 
-    .backup-toggle {
-      min-height: 38px;
-      padding: 7px 16px;
-      color: #4f5145;
-      border: 1px solid #d8d1c3;
-      background: #faf6ed;
-      font-size: 14px;
-    }
 
     .save-button:active,
-    .backup-button:active,
-    .backup-toggle:active {
+    .backup-button:active {
       transform: translateY(1px);
     }
 
@@ -243,20 +233,9 @@
       font-size: 15px;
     }
 
-    .backup-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 6px;
-    }
-
-    .backup-head .section-title {
-      margin-bottom: 0;
-    }
-
     .backup-actions {
       display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 10px;
       margin-top: 12px;
     }
@@ -375,18 +354,12 @@
       </section>
 
       <section class="card backup-card" aria-labelledby="backupTitle">
-        <div class="backup-head">
-          <h2 class="section-title" id="backupTitle">バックアップ</h2>
-          <button class="backup-toggle" type="button" id="backupToggle" aria-expanded="false" aria-controls="backupPanel">開く</button>
-        </div>
-        <p class="backup-text">記録を保存したり復元できます。
-大切な記録がなくならないように、定期的に保存をお願いします。</p>
-        <div id="backupPanel" hidden>
-          <div class="backup-actions">
-            <button class="backup-button" type="button" id="exportButton">保存</button>
-            <label class="backup-button" id="importButton" for="importFile" role="button" tabindex="0">復元</label>
-            <input class="visually-hidden" type="file" id="importFile" accept=".json,application/json">
-          </div>
+        <h2 class="section-title" id="backupTitle">バックアップ</h2>
+        <p class="backup-text">記録を保存したり復元できます。大切な記録がなくならないように、定期的に保存をお願いします。</p>
+        <div class="backup-actions">
+          <button class="backup-button" type="button" id="exportButton">保存</button>
+          <label class="backup-button" id="importButton" for="importFile" role="button" tabindex="0">復元</label>
+          <input class="visually-hidden" type="file" id="importFile" accept=".json,application/json">
         </div>
         <p class="backup-status" id="backupStatus" aria-live="polite"></p>
       </section>
@@ -428,8 +401,6 @@
     const saveStatus = document.getElementById("saveStatus");
     const todayRecords = document.getElementById("todayRecords");
     const historyRecords = document.getElementById("historyRecords");
-    const backupToggle = document.getElementById("backupToggle");
-    const backupPanel = document.getElementById("backupPanel");
     const exportButton = document.getElementById("exportButton");
     const importButton = document.getElementById("importButton");
     const importFile = document.getElementById("importFile");
@@ -728,17 +699,9 @@
       reader.readAsText(file);
     }
 
-    function toggleBackupPanel() {
-      const shouldOpen = backupPanel.hidden;
-      backupPanel.hidden = !shouldOpen;
-      backupToggle.textContent = shouldOpen ? "閉じる" : "開く";
-      backupToggle.setAttribute("aria-expanded", String(shouldOpen));
-    }
-
     recordDate.value = getTodayKey();
 
     saveButton.addEventListener("click", addRecord);
-    backupToggle.addEventListener("click", toggleBackupPanel);
     exportButton.addEventListener("click", exportRecords);
     importButton.addEventListener("click", openImportFilePicker);
     importButton.addEventListener("keydown", (event) => {
