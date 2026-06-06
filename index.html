@@ -377,13 +377,9 @@
         </div>
       </section>
 
-      <section class="card" aria-labelledby="todayTitle">
-        <h2 class="section-title" id="todayTitle">今日の記録</h2>
-        <div id="todayRecords"></div>
-      </section>
 
       <section class="card" aria-labelledby="historyTitle">
-        <h2 class="section-title" id="historyTitle">過去の記録</h2>
+        <h2 class="section-title" id="historyTitle">記録</h2>
         <div id="historyRecords"></div>
       </section>
 
@@ -399,7 +395,6 @@
     const recordDate = document.getElementById("recordDate");
     const saveButton = document.getElementById("saveButton");
     const saveStatus = document.getElementById("saveStatus");
-    const todayRecords = document.getElementById("todayRecords");
     const historyRecords = document.getElementById("historyRecords");
     const exportButton = document.getElementById("exportButton");
     const importButton = document.getElementById("importButton");
@@ -480,30 +475,8 @@
       return item;
     }
 
-    function renderToday(records) {
-      const today = getTodayKey();
-      const todaysRecords = sortNewestFirst(records).filter((record) => record.date === today);
-
-      todayRecords.replaceChildren();
-
-      if (todaysRecords.length === 0) {
-        const empty = document.createElement("p");
-        empty.className = "empty";
-        empty.textContent = "今日の記録はまだありません。";
-        todayRecords.append(empty);
-        return;
-      }
-
-      const list = document.createElement("ul");
-      list.className = "record-list";
-      todaysRecords.forEach((record) => list.append(createRecordItem(record)));
-      todayRecords.append(list);
-    }
-
     function renderHistory(records) {
-      const today = getTodayKey();
-      const pastRecords = records.filter((record) => record.date < today);
-      const groupedRecords = groupByDate(pastRecords);
+      const groupedRecords = groupByDate(records);
       const dates = Object.keys(groupedRecords).sort().reverse();
 
       historyRecords.replaceChildren();
@@ -511,7 +484,7 @@
       if (dates.length === 0) {
         const empty = document.createElement("p");
         empty.className = "empty";
-        empty.textContent = "過去の記録はまだありません。";
+        empty.textContent = "記録はまだありません。";
         historyRecords.append(empty);
         return;
       }
@@ -540,7 +513,6 @@
 
     function render() {
       const records = loadRecords();
-      renderToday(records);
       renderHistory(records);
     }
 
